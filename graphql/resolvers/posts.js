@@ -1,18 +1,18 @@
-import Posts from '../../models/Post.js';
+import Post from '../../models/Post.js';
 
 
 const resolvers = {
     Query: {
         async getPosts(){
             try {
-              const posts = await Posts.find();
+              const posts = await Post.find();
               return posts
             } catch(error) {
                 throw new Error(error)
 
             }
         }
-    }
+    },
 }
 
 export default resolvers;
