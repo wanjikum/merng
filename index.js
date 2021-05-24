@@ -5,24 +5,12 @@ import mongoose from 'mongoose';
 
 import config from './config.js';
 import Posts from './models/Post.js'
+import typeDefs from './typeDefs/index.js';
 
 
 
-const { ApolloServer, gql } = apolloServer;
+const { ApolloServer } = apolloServer;
 const { MONGO_DB } = config;
-
-const typeDefs = gql`
-  type Post {
-      id: ID!
-      body: String!
-      username: String!
-      createdAt: String!
-  }
-  type Query {
-      sayHi: String
-      getPosts: [Post]
-  }
-`;
 
 const resolvers = {
     Query: {
