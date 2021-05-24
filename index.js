@@ -1,21 +1,39 @@
 import express from 'express';
 import apolloServer from 'apollo-server-express';
 import mongoose from 'mongoose';
+
+
 import config from './config.js';
+import Posts from './models/Post.js'
+
+
 
 const { ApolloServer, gql } = apolloServer;
 const { MONGO_DB } = config;
 
 const typeDefs = gql`
+  type Post {
+      id: ID!
+      body: String!
+      username: String!
+      createdAt: String!
+  }
   type Query {
       sayHi: String
+      getPosts: [Post]
   }
 `;
 
 const resolvers = {
     Query: {
-        sayHi: () => {
-            return 'Hello World'
+        async getPosts(){
+            try {
+              const posts = await Posts.find();
+              return posts
+            } catch(error) {
+                throw new Error(error)
+
+            }
         }
     }
 }
