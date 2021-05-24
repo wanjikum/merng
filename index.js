@@ -1,7 +1,11 @@
-const express = require('express');
-const { ApolloServer, gql } = require('apollo-server-express');
-const mongoose = require('moongose');
- 
+import express from 'express';
+import apolloServer from 'apollo-server-express';
+import mongoose from 'mongoose';
+import config from './config.js';
+
+const { ApolloServer, gql } = apolloServer;
+const { MONGO_DB } = config;
+
 const typeDefs = gql`
   type Query {
       sayHi: String
@@ -20,10 +24,13 @@ const server = new ApolloServer({ typeDefs, resolvers });
  
 const app = express();
 server.applyMiddleware({ app });
- 
-app.listen({ port: 4000 }, () => {
-  console.log('Now browse to http://localhost:4000' + server.graphqlPath)
-});
+
+mongoose.connect(MONGO_DB, { useNewUrlParser: true,  useUnifiedTopology: true }).then(() => {
+    app.listen({ port: 4000 }, () => {
+        console.log('Now browse to http://localhost:4000' + server.graphqlPath)
+      });
+
+})
 
 
     
